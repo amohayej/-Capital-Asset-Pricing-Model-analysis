@@ -1,0 +1,45 @@
+library(quantmod)
+library(PerformanceAnalytics)
+
+stocks <- c("AAPL", "MSFT", "AMZN", "GOOGL", "TSLA", "NVDA")
+market <- "^GSPC"
+getSymbols(stocks, src = "yahoo", from = "2020-01-01")
+getSymbols(market, src = "yahoo", from = "2020-01-01")
+
+stock_prices <- do.call(merge, lapply(stocks, function(x) Ad(get(x))))
+colnames(stock_prices) <- stocks
+
+market_prices <- Ad(GSPC)
+
+stock_returns <- na.omit(Return.calculate(stock_prices, method = "log"))
+market_returns <- na.omit(Return.calculate(market_prices, method = "log"))
+
+data_all <- na.omit(merge(stock_returns, market_returns))
+colnames(data_all)[ncol(data_all)] <- "MKT"
+
+results <- data.frame()
+
+for (i in 1:(ncol(data_all)-1)) {
+
+  model <- lm(data_all[, i] ~ data_all$MKT)
+
+  results <- rbind(results, data.frame(
+    Stock = colnames(data_all)[i],
+    Alpha = coef(model)[1],
+    Beta = coef(model)[2],
+    Sharpe = mean(data_all[, i]) / sd(data_all[, i])
+  ))
+}
+
+print(results)
+
+plot(results$Beta, results$Sharpe,
+     main = "CAPM: Risk vs Return",
+     xlab = "Beta",
+     ylab = "Sharpe Ratio",
+     pch = 19)
+
+text(results$Beta, results$Sharpe, labels = results$Stock, pos = 3)
+
+write.csv(results, "capm_results.csv")
+cat("\nDONE SUCCESSFULLY\n")
