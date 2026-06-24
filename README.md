@@ -15,8 +15,10 @@ MSFT & AMZN are clustered with lower Sharpe ratios in this sample period
  Lower risk-adjusted performance compared to peers
 
 High Beta Stocks (TSLA, NVDA):
+
 High volatility, sensitive to market swings
  Medium Beta Stocks (AAPL, GOOGL):
+ 
 Balanced growth and stability
- Lower Sharpe Stocks (some AMZN/MSFT periods):
+Lower Sharpe Stocks (some AMZN/MSFT periods):
 Less efficient risk-adjusted returns in this sample window
