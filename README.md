@@ -22,4 +22,6 @@ High volatility, sensitive to market swings
 Balanced growth and stability
 Lower Sharpe Stocks (some AMZN/MSFT periods):
 Less efficient risk-adjusted returns in this sample window
+</>Markdown
 
+![CAPM Plot](capm_risk_return.png)
